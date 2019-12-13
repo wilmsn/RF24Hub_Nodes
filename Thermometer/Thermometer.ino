@@ -6,7 +6,7 @@ Can be used with a display or only as a sensor without display
 // My definitions for my nodes based on this sketch
 // Select only one at one time !!!!
 //#define AUSSENTHERMOMETER
-//#define AUSSENTHERMOMETER2
+#define AUSSENTHERMOMETER2
 //#define SCHLAFZIMMERTHERMOMETER
 //#define BASTELZIMMERTHERMOMETER
 //#define KUECHETHERMOMETER
@@ -99,7 +99,7 @@ Can be used with a display or only as a sensor without display
 #define STATUSLED_ON    HIGH
 #define STATUSLED_OFF   LOW
 #define LOWVOLTAGELEVEL 1
-#define EEPROM_VERSION  3
+#define EEPROM_VERSION  2
 
 #endif
 //-----------------------------------------------------
@@ -281,6 +281,8 @@ void get_sensordata(void) {
 #endif
 #if defined(BMP_280)
   bmp.startSingleMeasure();
+  sleep4ms(800);
+  delay(10);
   temp = bmp.readTemperature();
   pres = bmp.readPressureAtSealevel(91);
 #endif
@@ -380,7 +382,7 @@ float action_loop(unsigned char channel, float value) {
         break;
       case 116:
       // Voltagefactor - will be divided by 100
-        if (value > 10 || value < 1000) {
+        if (value > 10 && value < 1000) {
           eeprom.voltagefactor=(uint16_t)value;
           EEPROM.put(0, eeprom);
         }
@@ -388,7 +390,7 @@ float action_loop(unsigned char channel, float value) {
         break;
       case 117:
       // Voltageadded - will be divided by 100
-        if ((value > 0.5 && value < 6000) || (value < -0.5 && value > -6000)) {
+        if (value > -300 && value < 300) {
           eeprom.voltageadded=(int)value;
           EEPROM.put(0, eeprom);
         }
@@ -750,7 +752,7 @@ void loop(void) {
       delay(10);
       payload.orderno = 0;
       payload.sensor1 = 101;
-      payload.value2 = cur_voltage;
+      payload.value1 = cur_voltage;
 #if defined(DALLAS_18B20)
       payload.sensor2 = 1;
       payload.value2 = temp;
@@ -772,6 +774,8 @@ void loop(void) {
       payload.value2 = temp;
       payload.sensor3 = 2;
       payload.value3 = pres;
+      payload.sensor4 = 0;
+      payload.value4 = 0;
 #endif
       txheader.type = 51;
       receiveloopcount = 0;

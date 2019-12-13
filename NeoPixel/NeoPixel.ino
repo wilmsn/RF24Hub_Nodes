@@ -186,5 +186,5 @@ void loop(void) {
     txheader.type=rxheader.type;
     network.write(txheader,&payload,sizeof(payload));    
   }
-  //delay(10);
+  delay(10);
 }
