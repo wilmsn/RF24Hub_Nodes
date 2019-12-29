@@ -1,17 +1,20 @@
 /*
 A thermometer.
 Can be used with a display or only as a sensor without display
+
+!! Useing RF24Network !!!!!!!
+
 */
 //****************************************************
 // My definitions for my nodes based on this sketch
 // Select only one at one time !!!!
 //#define AUSSENTHERMOMETER
-#define AUSSENTHERMOMETER2
+//#define AUSSENTHERMOMETER2
 //#define SCHLAFZIMMERTHERMOMETER
 //#define BASTELZIMMERTHERMOMETER
 //#define KUECHETHERMOMETER
 //#define WOHNZIMMERTHERMOMETER
-//#define ANKLEIDEZIMMERTHERMOMETER
+#define ANKLEIDEZIMMERTHERMOMETER
 //#define GAESTEZIMMERTHERMOMETER
 //****************************************************
 //          Define node general settings
